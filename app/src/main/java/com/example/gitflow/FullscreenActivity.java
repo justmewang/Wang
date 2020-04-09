@@ -1,12 +1,15 @@
 package com.example.gitflow;
 
 import android.annotation.SuppressLint;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.example.mylibrary.MyLibTest;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -17,7 +20,7 @@ public class FullscreenActivity extends AppCompatActivity {
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
      */
-    private static final boolean AUTO_HIDE = true;
+    private static final boolean AUTO_HIDE = false;
 
     /**
      * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
@@ -79,6 +82,7 @@ public class FullscreenActivity extends AppCompatActivity {
             if (AUTO_HIDE) {
                 delayedHide(AUTO_HIDE_DELAY_MILLIS);
             }
+            MyLibTest.getInstance().init();
             return false;
         }
     };
@@ -106,6 +110,12 @@ public class FullscreenActivity extends AppCompatActivity {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+        findViewById(R.id.goto_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyLibTest.getInstance().showMyActivity(getApplicationContext());
+            }
+        });
     }
 
     @Override
@@ -146,7 +156,7 @@ public class FullscreenActivity extends AppCompatActivity {
         mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         mVisible = true;
-
+        mContentView.setClickable(false);
         // Schedule a runnable to display UI elements after a delay
         mHideHandler.removeCallbacks(mHidePart2Runnable);
         mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
