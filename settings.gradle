@@ -1,2 +1,3 @@
 rootProject.name='Wang'
-include ':app'
+include ':app', ':mylibraryRelease'
+include ':importaar'
